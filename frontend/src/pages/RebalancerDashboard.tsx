@@ -36,7 +36,7 @@ export default function RebalancerDashboard() {
 
       {/* Balances */}
       <div className="grid grid-cols-2 gap-3">
-        {[{ label: 'Cash Balance', val: data.balances.cash, color: 'text-zamtel-green', icon: '💵' }, { label: 'Float Balance', val: data.balances.float, color: 'text-blue-600', icon: '📱' }].map(c => (
+        {[{ label: 'Cash Balance', val: data.balances.cash, color: 'text-brand-blue', icon: '💵' }, { label: 'Float Balance', val: data.balances.float, color: 'text-blue-600', icon: '📱' }].map(c => (
           <div key={c.label} className="bg-white rounded-2xl border border-gray-200 p-4 text-center shadow-sm">
             <p className="text-2xl mb-1">{c.icon}</p>
             <p className={`text-xl font-extrabold ${c.color}`}>{fmtZMW(c.val)}</p>
@@ -72,7 +72,7 @@ export default function RebalancerDashboard() {
 
       {/* Action buttons */}
       <div className="grid grid-cols-3 gap-2">
-        {[{ to: '/distribute', label: '💸 Distribute', col: 'bg-zamtel-green' }, { to: '/prospects/new', label: '➕ Prospect', col: 'bg-zamtel-pink' }, { to: '/leaderboard', label: '🏆 Rank', col: 'bg-gray-700' }].map(b => (
+        {[{ to: '/distribute', label: '💸 Distribute', col: 'bg-brand-blue' }, { to: '/prospects/new', label: '➕ Prospect', col: 'bg-brand-gold' }, { to: '/leaderboard', label: '🏆 Rank', col: 'bg-gray-700' }].map(b => (
           <Link key={b.to} to={b.to} className={`${b.col} text-white text-center py-3 rounded-xl font-bold text-sm hover:opacity-90 transition-opacity`}>{b.label}</Link>
         ))}
       </div>
@@ -91,7 +91,7 @@ export default function RebalancerDashboard() {
                   <p className="text-sm font-semibold text-gray-800 truncate">{d.agentName} <span className="text-gray-400 font-normal">({d.agentCode})</span></p>
                   <p className="text-xs text-gray-400">{d.transactionRef} · {fmtDate(d.createdAt)} {fmtTime(d.createdAt)}</p>
                 </div>
-                <span className="font-bold text-zamtel-green text-sm whitespace-nowrap">{fmtZMW(d.amount)}</span>
+                <span className="font-bold text-brand-blue text-sm whitespace-nowrap">{fmtZMW(d.amount)}</span>
               </div>
             ))}
           </div>

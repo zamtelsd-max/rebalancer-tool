@@ -25,8 +25,8 @@ export default function ReportsPage() {
             <YAxis tick={{ fontSize: 10 }} tickFormatter={v => `K${(v/1000).toFixed(0)}k`} />
             <Tooltip formatter={(v: number) => `K${v.toLocaleString()}`} />
             <Legend />
-            <Line type="monotone" dataKey="cash" stroke="#00843D" strokeWidth={2} dot={false} name="Cash" />
-            <Line type="monotone" dataKey="float" stroke="#E4007C" strokeWidth={2} dot={false} name="Float" />
+            <Line type="monotone" dataKey="cash" stroke="#003DA5" strokeWidth={2} dot={false} name="Cash" />
+            <Line type="monotone" dataKey="float" stroke="#D4A017" strokeWidth={2} dot={false} name="Float" />
           </LineChart>
         </ResponsiveContainer>
       </div>
@@ -39,7 +39,7 @@ export default function ReportsPage() {
             <XAxis dataKey="date" tick={{ fontSize: 10 }} tickFormatter={d => d.slice(5)} />
             <YAxis tick={{ fontSize: 10 }} />
             <Tooltip />
-            <Bar dataKey="agents" fill="#00843D" name="Agents Visited" radius={[3, 3, 0, 0]} />
+            <Bar dataKey="agents" fill="#003DA5" name="Agents Visited" radius={[3, 3, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </div>

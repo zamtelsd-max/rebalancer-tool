@@ -37,7 +37,7 @@ export default function UsersPage() {
     <div className="sm:ml-52 space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-extrabold text-gray-900">👥 User Management</h1>
-        <button onClick={() => setShowForm(!showForm)} className="bg-zamtel-green text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-zamtel-green-dark">+ Add User</button>
+        <button onClick={() => setShowForm(!showForm)} className="bg-brand-blue text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-brand-blue-dark">+ Add User</button>
       </div>
 
       {showForm && (
@@ -50,19 +50,19 @@ export default function UsersPage() {
                   <label className="text-xs font-bold text-gray-700 block mb-1">{f.label}</label>
                   <input type={f.type} value={(form as Record<string, string>)[f.key]} onChange={e => setForm(p => ({ ...p, [f.key]: e.target.value }))}
                     required={['username', 'name', 'password'].includes(f.key)}
-                    className="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-zamtel-green" placeholder={f.ph} />
+                    className="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue" placeholder={f.ph} />
                 </div>
               ))}
             </div>
             <div>
               <label className="text-xs font-bold text-gray-700 block mb-1">Role</label>
-              <select value={form.role} onChange={e => setForm(p => ({ ...p, role: e.target.value }))} className="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-zamtel-green">
+              <select value={form.role} onChange={e => setForm(p => ({ ...p, role: e.target.value }))} className="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue">
                 {ROLES.map(r => <option key={r}>{r}</option>)}
               </select>
             </div>
             <div className="flex gap-3">
               <button type="button" onClick={() => setShowForm(false)} className="flex-1 py-2.5 border border-gray-300 rounded-xl text-sm font-semibold text-gray-700">Cancel</button>
-              <button type="submit" disabled={submitting} className="flex-1 py-2.5 bg-zamtel-green text-white rounded-xl text-sm font-bold disabled:opacity-60">{submitting ? 'Creating…' : 'Create User'}</button>
+              <button type="submit" disabled={submitting} className="flex-1 py-2.5 bg-brand-blue text-white rounded-xl text-sm font-bold disabled:opacity-60">{submitting ? 'Creating…' : 'Create User'}</button>
             </div>
           </form>
         </div>

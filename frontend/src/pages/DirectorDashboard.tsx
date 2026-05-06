@@ -53,7 +53,7 @@ export default function DirectorDashboard() {
     <div className="sm:ml-52 space-y-5">
       <div className="flex items-center justify-between">
         <div><h1 className="text-xl font-extrabold text-gray-900">Director Dashboard</h1><p className="text-xs text-gray-500">Day {data.mtd.wde} of {data.mtd.wdm} · MTD</p></div>
-        <button onClick={() => setAllocModal(true)} className="bg-zamtel-green text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-zamtel-green-dark">💸 Allocate</button>
+        <button onClick={() => setAllocModal(true)} className="bg-brand-blue text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-brand-blue-dark">💸 Allocate</button>
       </div>
 
       {/* Master balances */}
@@ -61,7 +61,7 @@ export default function DirectorDashboard() {
         {[{ label: 'Master Cash', val: data.master.cashBalance, icon: '💵' }, { label: 'Master Float', val: data.master.floatBalance, icon: '📱' }].map(c => (
           <div key={c.label} className="bg-white rounded-2xl border border-gray-200 p-4 text-center shadow-sm">
             <p className="text-2xl mb-1">{c.icon}</p>
-            <p className="text-lg font-extrabold text-zamtel-green">{fmtZMW(c.val)}</p>
+            <p className="text-lg font-extrabold text-brand-blue">{fmtZMW(c.val)}</p>
             <p className="text-xs text-gray-500">{c.label}</p>
           </div>
         ))}
@@ -102,7 +102,7 @@ export default function DirectorDashboard() {
                       <td key={i} className={`px-3 py-2 font-bold ${p >= 80 ? 'text-green-600' : p >= 60 ? 'text-yellow-600' : p >= 40 ? 'text-orange-500' : 'text-red-600'}`}>{p}%</td>
                     ))}
                     <td className={`px-3 py-2 font-extrabold ${band.color}`}>{r.score.toFixed(1)}%</td>
-                    <td className="px-3 py-2 text-zamtel-green font-semibold">{fmtZMW(r.cashBalance)}</td>
+                    <td className="px-3 py-2 text-brand-blue font-semibold">{fmtZMW(r.cashBalance)}</td>
                     <td className="px-3 py-2 text-blue-600 font-semibold">{fmtZMW(r.floatBalance)}</td>
                   </tr>
                 );
@@ -117,7 +117,7 @@ export default function DirectorDashboard() {
       <div className="bg-white rounded-2xl border border-gray-200 p-4 shadow-sm">
         <div className="flex items-center justify-between mb-3">
           <h2 className="font-bold text-gray-800">🏆 Today's Top 5</h2>
-          <Link to="/leaderboard" className="text-xs text-zamtel-green font-semibold">Full MTD Leaderboard →</Link>
+          <Link to="/leaderboard" className="text-xs text-brand-blue font-semibold">Full MTD Leaderboard →</Link>
         </div>
         <div className="space-y-2">
           {data.leaderboard.map((r, i) => {
@@ -144,7 +144,7 @@ export default function DirectorDashboard() {
             <form onSubmit={doAllocate} className="space-y-4">
               <div>
                 <label className="text-sm font-semibold text-gray-700 block mb-1">Rebalancer</label>
-                <select value={allocReb} onChange={e => setAllocReb(e.target.value)} required className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-zamtel-green focus:outline-none">
+                <select value={allocReb} onChange={e => setAllocReb(e.target.value)} required className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-blue focus:outline-none">
                   <option value="">Select rebalancer…</option>
                   {rebs.map(r => <option key={r.id} value={r.id}>{r.name} (Cash: {fmtZMW(r.cashBalance)}, Float: {fmtZMW(r.floatBalance)})</option>)}
                 </select>
@@ -152,7 +152,7 @@ export default function DirectorDashboard() {
               <div className="grid grid-cols-2 gap-3">
                 {(['CASH', 'FLOAT'] as const).map(tp => (
                   <button type="button" key={tp} onClick={() => setAllocType(tp)}
-                    className={`py-3 rounded-xl font-bold text-sm border-2 ${allocType === tp ? 'border-zamtel-green bg-green-50 text-zamtel-green' : 'border-gray-200 text-gray-400'}`}>
+                    className={`py-3 rounded-xl font-bold text-sm border-2 ${allocType === tp ? 'border-brand-blue bg-green-50 text-brand-blue' : 'border-gray-200 text-gray-400'}`}>
                     {tp === 'CASH' ? '💵 Cash' : '📱 Float'}
                   </button>
                 ))}
@@ -160,16 +160,16 @@ export default function DirectorDashboard() {
               <div>
                 <label className="text-sm font-semibold text-gray-700 block mb-1">Amount (ZMW)</label>
                 <input type="number" min="1" step="0.01" value={allocAmt} onChange={e => setAllocAmt(e.target.value)} required
-                  className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-zamtel-green focus:outline-none" placeholder="e.g. 50000" />
+                  className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-blue focus:outline-none" placeholder="e.g. 50000" />
               </div>
               <div>
                 <label className="text-sm font-semibold text-gray-700 block mb-1">Reference (optional)</label>
                 <input value={allocRef} onChange={e => setAllocRef(e.target.value)}
-                  className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-zamtel-green focus:outline-none" placeholder="Transfer reference" />
+                  className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-blue focus:outline-none" placeholder="Transfer reference" />
               </div>
               <div className="flex gap-3">
                 <button type="button" onClick={() => setAllocModal(false)} className="flex-1 py-3 border border-gray-300 rounded-xl text-sm font-semibold text-gray-700">Cancel</button>
-                <button type="submit" disabled={submitting} className="flex-1 py-3 bg-zamtel-green text-white rounded-xl text-sm font-bold disabled:opacity-60 hover:bg-zamtel-green-dark">
+                <button type="submit" disabled={submitting} className="flex-1 py-3 bg-brand-blue text-white rounded-xl text-sm font-bold disabled:opacity-60 hover:bg-brand-blue-dark">
                   {submitting ? 'Allocating…' : 'Confirm Allocation'}
                 </button>
               </div>

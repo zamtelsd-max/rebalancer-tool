@@ -35,15 +35,15 @@ export default function TargetsPage() {
     <div className="sm:ml-52 space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-extrabold text-gray-900">🎯 Target Management</h1>
-        <button onClick={() => setShowForm(!showForm)} className="bg-zamtel-green text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-zamtel-green-dark">+ New Version</button>
+        <button onClick={() => setShowForm(!showForm)} className="bg-brand-blue text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-brand-blue-dark">+ New Version</button>
       </div>
 
       {active && (
-        <div className="bg-green-50 border-2 border-zamtel-green rounded-2xl p-4">
-          <p className="text-xs font-bold text-zamtel-green mb-2">✅ ACTIVE — Version {active.version}</p>
+        <div className="bg-green-50 border-2 border-brand-blue rounded-2xl p-4">
+          <p className="text-xs font-bold text-brand-blue mb-2">✅ ACTIVE — Version {active.version}</p>
           <div className="grid grid-cols-2 gap-2 text-sm">
-            <div><p className="text-gray-500 text-xs">Cash Target</p><p className="font-extrabold text-zamtel-green">{fmtZMW(active.cashTarget)}/day</p></div>
-            <div><p className="text-gray-500 text-xs">Float Target</p><p className="font-extrabold text-zamtel-green">{fmtZMW(active.floatTarget)}/day</p></div>
+            <div><p className="text-gray-500 text-xs">Cash Target</p><p className="font-extrabold text-brand-blue">{fmtZMW(active.cashTarget)}/day</p></div>
+            <div><p className="text-gray-500 text-xs">Float Target</p><p className="font-extrabold text-brand-blue">{fmtZMW(active.floatTarget)}/day</p></div>
             <div><p className="text-gray-500 text-xs">Agents Target</p><p className="font-extrabold text-gray-800">{active.visitsTarget}/day</p></div>
             <div><p className="text-gray-500 text-xs">Prospects Target</p><p className="font-extrabold text-gray-800">{active.prospectsTarget}/day</p></div>
           </div>
@@ -59,17 +59,17 @@ export default function TargetsPage() {
               {[{ label: 'Cash Target (K/day)', val: cashT, set: setCashT }, { label: 'Float Target (K/day)', val: floatT, set: setFloatT }, { label: 'Agents Visits/day', val: visitsT, set: setVisitsT }, { label: 'Prospects/day', val: prospectsT, set: setProspectsT }].map(f => (
                 <div key={f.label}>
                   <label className="text-xs font-bold text-gray-700 block mb-1">{f.label}</label>
-                  <input type="number" min="1" value={f.val} onChange={e => f.set(e.target.value)} required className="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-zamtel-green" />
+                  <input type="number" min="1" value={f.val} onChange={e => f.set(e.target.value)} required className="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue" />
                 </div>
               ))}
             </div>
             <div>
               <label className="text-xs font-bold text-gray-700 block mb-1">Notes</label>
-              <input value={notes} onChange={e => setNotes(e.target.value)} className="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-zamtel-green" placeholder="e.g. Q2 target uplift 10%" />
+              <input value={notes} onChange={e => setNotes(e.target.value)} className="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue" placeholder="e.g. Q2 target uplift 10%" />
             </div>
             <div className="flex gap-3">
               <button type="button" onClick={() => setShowForm(false)} className="flex-1 py-2.5 border border-gray-300 rounded-xl text-sm font-semibold text-gray-700">Cancel</button>
-              <button type="submit" disabled={submitting} className="flex-1 py-2.5 bg-zamtel-green text-white rounded-xl text-sm font-bold disabled:opacity-60">
+              <button type="submit" disabled={submitting} className="flex-1 py-2.5 bg-brand-blue text-white rounded-xl text-sm font-bold disabled:opacity-60">
                 {submitting ? 'Creating…' : 'Create Version'}
               </button>
             </div>

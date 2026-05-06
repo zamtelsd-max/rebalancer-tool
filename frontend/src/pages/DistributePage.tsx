@@ -123,7 +123,7 @@ export default function DistributePage() {
         <div className="grid grid-cols-2 gap-3">
           {(['CASH', 'FLOAT'] as const).map(t => (
             <button type="button" key={t} onClick={() => setType(t)}
-              className={`py-4 rounded-2xl border-2 font-bold text-sm transition-all ${type === t ? 'border-zamtel-green bg-green-50 text-zamtel-green scale-[1.02] shadow-md' : 'border-gray-200 text-gray-400 hover:border-gray-300'}`}>
+              className={`py-4 rounded-2xl border-2 font-bold text-sm transition-all ${type === t ? 'border-brand-blue bg-green-50 text-brand-blue scale-[1.02] shadow-md' : 'border-gray-200 text-gray-400 hover:border-gray-300'}`}>
               {t === 'CASH' ? '💵 Cash' : '📱 Float'}
             </button>
           ))}
@@ -158,7 +158,7 @@ export default function DistributePage() {
                   value={agentCode}
                   onChange={e => setAgentCode(e.target.value.toUpperCase())}
                   onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), confirmNewAgent())}
-                  className="flex-1 border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-zamtel-green font-mono"
+                  className="flex-1 border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue font-mono"
                   placeholder="e.g. ZM-AG-0042 — type to search or enter new"
                   autoFocus
                 />
@@ -198,31 +198,31 @@ export default function DistributePage() {
               <div className="col-span-2">
                 <label className="text-xs font-bold text-gray-700 block mb-1">Full Name <span className="text-red-500">*</span></label>
                 <input value={agentName} onChange={e => setAgentName(e.target.value)} required
-                  className="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-zamtel-green bg-white"
+                  className="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue bg-white"
                   placeholder="Agent full name" />
               </div>
               <div>
                 <label className="text-xs font-bold text-gray-700 block mb-1">Phone <span className="text-red-500">*</span></label>
                 <input value={agentPhone} onChange={e => setAgentPhone(e.target.value)} required
-                  className="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-zamtel-green bg-white"
+                  className="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue bg-white"
                   placeholder="260977…" />
               </div>
               <div>
                 <label className="text-xs font-bold text-gray-700 block mb-1">Town</label>
                 <input value={agentTown} onChange={e => setAgentTown(e.target.value)}
-                  className="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-zamtel-green bg-white"
+                  className="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue bg-white"
                   placeholder="e.g. Lusaka" />
               </div>
               <div>
                 <label className="text-xs font-bold text-gray-700 block mb-1">Market</label>
                 <input value={agentMarket} onChange={e => setAgentMarket(e.target.value)}
-                  className="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-zamtel-green bg-white"
+                  className="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue bg-white"
                   placeholder="e.g. Kalingalinga" />
               </div>
               <div>
                 <label className="text-xs font-bold text-gray-700 block mb-1">Province</label>
                 <select value={agentProvince} onChange={e => setAgentProvince(e.target.value)}
-                  className="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-zamtel-green bg-white">
+                  className="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue bg-white">
                   <option value="">Select…</option>
                   {PROVINCES.map(p => <option key={p}>{p}</option>)}
                 </select>
@@ -235,7 +235,7 @@ export default function DistributePage() {
         <div>
           <label className="block text-sm font-bold text-gray-700 mb-1">Amount (ZMW) <span className="text-red-500">*</span></label>
           <input type="number" min="1" step="0.01" value={amount} onChange={e => setAmount(e.target.value)} required
-            className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-zamtel-green"
+            className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue"
             placeholder="e.g. 5000" />
         </div>
 
@@ -243,7 +243,7 @@ export default function DistributePage() {
         <div>
           <label className="block text-sm font-bold text-gray-700 mb-1">Zamtel Money Transaction Ref <span className="text-red-500">*</span></label>
           <input value={txRef} onChange={e => setTxRef(e.target.value)} required
-            className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-zamtel-green"
+            className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue"
             placeholder="Transaction reference from Zamtel Money" />
         </div>
 
@@ -256,13 +256,13 @@ export default function DistributePage() {
             Notes {selectedAgent?.isRedFlagged && <span className="text-red-500">* (required for flagged agent)</span>}
           </label>
           <textarea value={notes} onChange={e => setNotes(e.target.value)} rows={3}
-            className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-zamtel-green resize-none"
+            className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue resize-none"
             placeholder="Optional notes…" />
         </div>
 
         <button type="submit"
           disabled={submitting || !lookupDone || !amount || !txRef || !lat}
-          className="w-full py-4 bg-zamtel-green text-white rounded-2xl font-extrabold text-sm hover:bg-zamtel-green-dark disabled:opacity-50 transition-colors">
+          className="w-full py-4 bg-brand-blue text-white rounded-2xl font-extrabold text-sm hover:bg-brand-blue-dark disabled:opacity-50 transition-colors">
           {submitting ? 'Submitting…' : `✅ Submit ${type} Distribution`}
         </button>
       </form>

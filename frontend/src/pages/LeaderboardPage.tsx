@@ -29,7 +29,7 @@ export default function LeaderboardPage() {
             return (
               <div key={r.id} className={`flex flex-col items-center ${heights[i]} justify-end`}>
                 <p className="text-2xl mb-1">{medals[[1,0,2][i]]}</p>
-                <div className={`w-20 rounded-t-xl flex flex-col items-center justify-center text-white py-2 ${i === 1 ? 'bg-zamtel-green' : 'bg-gray-400'} ${heights[i]}`}>
+                <div className={`w-20 rounded-t-xl flex flex-col items-center justify-center text-white py-2 ${i === 1 ? 'bg-brand-blue' : 'bg-gray-300'} ${heights[i]}`}>
                   <p className="text-[10px] font-bold text-center px-1 leading-tight">{r.name.split(' ')[0]}</p>
                   <p className={`text-sm font-extrabold ${band.color.replace('text-', 'text-white')}`}>{r.score.toFixed(1)}%</p>
                 </div>

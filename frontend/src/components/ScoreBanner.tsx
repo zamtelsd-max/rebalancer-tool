@@ -14,10 +14,12 @@ export default function ScoreBanner({ score, wde, wdm, name }: Props) {
           <p className="text-xs text-gray-400 mt-1">Day {wde} of {wdm}</p>
         </div>
       </div>
+      {/* Progress bar — blue fill, gold milestone markers */}
       <div className="h-3 bg-white/60 rounded-full overflow-hidden relative">
-        <div className="h-full rounded-full transition-all duration-700" style={{ width: `${Math.min(score, 100)}%`, backgroundColor: score >= 80 ? '#00843D' : score >= 60 ? '#ca8a04' : score >= 40 ? '#ea580c' : '#dc2626' }} />
+        <div className="h-full rounded-full transition-all duration-700"
+          style={{ width: `${Math.min(score, 100)}%`, backgroundColor: score >= 80 ? '#003DA5' : score >= 60 ? '#D4A017' : score >= 40 ? '#ea580c' : '#dc2626' }} />
         {[40, 60, 80].map(m => (
-          <div key={m} className="absolute top-0 bottom-0 w-px bg-gray-400/40" style={{ left: `${m}%` }} />
+          <div key={m} className="absolute top-0 bottom-0 w-px bg-white/60" style={{ left: `${m}%` }} />
         ))}
       </div>
       <div className="flex justify-between text-[9px] text-gray-400 mt-0.5">

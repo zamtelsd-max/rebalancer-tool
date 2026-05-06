@@ -44,12 +44,12 @@ export default function ProspectFormPage() {
           <div key={f.label}>
             <label className="block text-sm font-bold text-gray-700 mb-1">{f.label}</label>
             <input type={f.type} value={f.val} onChange={e => f.set(e.target.value)} required={f.label.includes('*')}
-              className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-zamtel-green" placeholder={f.ph} />
+              className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue" placeholder={f.ph} />
           </div>
         ))}
         <div>
           <label className="block text-sm font-bold text-gray-700 mb-1">Province</label>
-          <select value={province} onChange={e => setProvince(e.target.value)} className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-zamtel-green">
+          <select value={province} onChange={e => setProvince(e.target.value)} className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue">
             <option value="">Select province…</option>
             {PROVINCES.map(p => <option key={p}>{p}</option>)}
           </select>
@@ -59,7 +59,7 @@ export default function ProspectFormPage() {
           <div className="grid grid-cols-3 gap-2">
             {STAGES.map(s => (
               <button type="button" key={s} onClick={() => setStage(s)}
-                className={`py-2.5 rounded-xl border-2 text-xs font-bold transition-all ${stage === s ? 'border-zamtel-green bg-green-50 text-zamtel-green' : 'border-gray-200 text-gray-400 hover:border-gray-300'}`}>
+                className={`py-2.5 rounded-xl border-2 text-xs font-bold transition-all ${stage === s ? 'border-brand-blue bg-green-50 text-brand-blue' : 'border-gray-200 text-gray-400 hover:border-gray-300'}`}>
                 {s}
               </button>
             ))}
@@ -67,9 +67,9 @@ export default function ProspectFormPage() {
         </div>
         <div>
           <label className="block text-sm font-bold text-gray-700 mb-1">Notes</label>
-          <textarea value={notes} onChange={e => setNotes(e.target.value)} rows={3} className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-zamtel-green resize-none" placeholder="Additional notes…" />
+          <textarea value={notes} onChange={e => setNotes(e.target.value)} rows={3} className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue resize-none" placeholder="Additional notes…" />
         </div>
-        <button type="submit" disabled={submitting || !lat} className="w-full py-4 bg-zamtel-pink text-white rounded-2xl font-extrabold text-sm hover:opacity-90 disabled:opacity-50 transition-opacity">
+        <button type="submit" disabled={submitting || !lat} className="w-full py-4 bg-brand-gold text-white rounded-2xl font-extrabold text-sm hover:opacity-90 disabled:opacity-50 transition-opacity">
           {submitting ? 'Saving…' : '✅ Save Prospect'}
         </button>
       </form>

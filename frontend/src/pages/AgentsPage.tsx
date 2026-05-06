@@ -33,7 +33,7 @@ export default function AgentsPage() {
       <h1 className="text-xl font-extrabold text-gray-900">🤝 Agent Intelligence Board</h1>
       <div className="flex gap-2 flex-wrap">
         {(['all', 'flagged', 'stale'] as Filter[]).map(f => (
-          <button key={f} onClick={() => setFilter(f)} className={`px-3 py-1.5 rounded-full text-xs font-bold border-2 transition-colors ${filter === f ? 'border-zamtel-green bg-green-50 text-zamtel-green' : 'border-gray-200 text-gray-500 hover:border-gray-300'}`}>
+          <button key={f} onClick={() => setFilter(f)} className={`px-3 py-1.5 rounded-full text-xs font-bold border-2 transition-colors ${filter === f ? 'border-brand-blue bg-green-50 text-brand-blue' : 'border-gray-200 text-gray-500 hover:border-gray-300'}`}>
             {f === 'all' ? `All (${agents.length})` : f === 'flagged' ? `🚩 Flagged (${agents.filter(a => a.isRedFlagged).length})` : `⏰ Not visited 7d+ (${agents.filter(a => a.daysAgo === null || a.daysAgo >= 7).length})`}
           </button>
         ))}
@@ -55,10 +55,10 @@ export default function AgentsPage() {
                     {a.lastVisitedAt ? <span className={`font-semibold ${(a.daysAgo ?? 99) >= 7 ? 'text-red-600' : (a.daysAgo ?? 99) >= 3 ? 'text-yellow-600' : 'text-green-600'}`}>{a.daysAgo}d ago</span> : <span className="text-gray-400">Never</span>}
                   </td>
                   <td className="px-3 py-2.5 font-bold text-gray-700">{a.visitsMtd}</td>
-                  <td className="px-3 py-2.5 text-zamtel-green font-semibold">K{a.cashMtd.toLocaleString()}</td>
+                  <td className="px-3 py-2.5 text-brand-blue font-semibold">K{a.cashMtd.toLocaleString()}</td>
                   <td className="px-3 py-2.5 text-blue-600 font-semibold">K{a.floatMtd.toLocaleString()}</td>
                   <td className="px-3 py-2.5">{a.isRedFlagged ? <span className="bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-bold">🚩 Flagged</span> : <span className="bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-bold">✅ Clear</span>}</td>
-                  <td className="px-3 py-2.5"><button onClick={() => setSelected(a)} className="text-xs text-zamtel-green font-bold hover:underline">Manage</button></td>
+                  <td className="px-3 py-2.5"><button onClick={() => setSelected(a)} className="text-xs text-brand-blue font-bold hover:underline">Manage</button></td>
                 </tr>
               ))}
               {filtered.length === 0 && <tr><td colSpan={9} className="text-center py-8 text-gray-400">No agents found</td></tr>}
@@ -87,7 +87,7 @@ export default function AgentsPage() {
             {!selected.isRedFlagged && (
               <div className="mb-3">
                 <label className="text-sm font-bold text-gray-700 block mb-1">Flag reason</label>
-                <input value={flagReason} onChange={e => setFlagReason(e.target.value)} className="w-full border border-gray-300 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-zamtel-green" placeholder="Reason for flagging…" />
+                <input value={flagReason} onChange={e => setFlagReason(e.target.value)} className="w-full border border-gray-300 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue" placeholder="Reason for flagging…" />
               </div>
             )}
             <div className="flex gap-3">

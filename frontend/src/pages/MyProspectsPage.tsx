@@ -15,13 +15,13 @@ export default function MyProspectsPage() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-extrabold text-gray-900">📋 My Prospects</h1>
-        <Link to="/prospects/new" className="bg-zamtel-pink text-white px-4 py-2 rounded-xl text-sm font-bold hover:opacity-90">+ Add</Link>
+        <Link to="/prospects/new" className="bg-brand-gold text-white px-4 py-2 rounded-xl text-sm font-bold hover:opacity-90">+ Add</Link>
       </div>
       {prospects.length === 0 ? (
         <div className="text-center py-12 text-gray-400">
           <p className="text-4xl mb-3">👥</p>
           <p className="font-semibold">No prospects yet</p>
-          <Link to="/prospects/new" className="text-zamtel-pink text-sm font-bold mt-2 block">Add your first prospect →</Link>
+          <Link to="/prospects/new" className="text-brand-gold text-sm font-bold mt-2 block">Add your first prospect →</Link>
         </div>
       ) : (
         <div className="space-y-3">
