@@ -1,0 +1,209 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  schemas  = ["rb"]
+}
+
+enum Role {
+  DIRECTOR
+  ADMIN
+  REBALANCER
+  SUPERVISOR
+  @@schema("rb")
+}
+
+enum AllocType {
+  CASH
+  FLOAT
+  @@schema("rb")
+}
+
+enum ProspectStage {
+  CONTACTED
+  INTERESTED
+  SUBMITTED
+  APPROVED
+  REJECTED
+  @@schema("rb")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  username     String   @unique
+  name         String
+  passwordHash String
+  role         Role     @default(REBALANCER)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  rebalancer Rebalancer?
+  auditLogs  AuditLog[]
+
+  @@map("users")
+  @@schema("rb")
+}
+
+model Rebalancer {
+  id           String  @id @default(cuid())
+  userId       String  @unique
+  user         User    @relation(fields: [userId], references: [id])
+  region       String?
+  cashBalance  Decimal @default(0) @db.Decimal(15, 2)
+  floatBalance Decimal @default(0) @db.Decimal(15, 2)
+  isActive     Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  allocations   Allocation[]
+  distributions Distribution[]
+  prospects     Prospect[]
+  snapshots     PerformanceSnapshot[]
+
+  @@map("rebalancers")
+  @@schema("rb")
+}
+
+model MasterAccount {
+  id           String  @id @default(cuid())
+  cashBalance  Decimal @default(0) @db.Decimal(15, 2)
+  floatBalance Decimal @default(0) @db.Decimal(15, 2)
+  updatedAt    DateTime @updatedAt
+
+  @@map("master_accounts")
+  @@schema("rb")
+}
+
+model Allocation {
+  id            String     @id @default(cuid())
+  rebalancerId  String
+  rebalancer    Rebalancer @relation(fields: [rebalancerId], references: [id])
+  type          AllocType
+  amount        Decimal    @db.Decimal(15, 2)
+  reference     String?
+  notes         String?
+  allocatedById String
+  createdAt     DateTime   @default(now())
+
+  @@map("allocations")
+  @@schema("rb")
+}
+
+model AgentProfile {
+  id            String   @id @default(cuid())
+  agentCode     String   @unique
+  name          String
+  phone         String
+  town          String?
+  market        String?
+  province      String?
+  latitude      Decimal? @db.Decimal(10, 7)
+  longitude     Decimal? @db.Decimal(10, 7)
+  isActive      Boolean  @default(true)
+  isRedFlagged  Boolean  @default(false)
+  redFlagReason String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  distributions Distribution[]
+
+  @@map("agent_profiles")
+  @@schema("rb")
+}
+
+model Distribution {
+  id             String        @id @default(cuid())
+  rebalancerId   String
+  rebalancer     Rebalancer    @relation(fields: [rebalancerId], references: [id])
+  agentProfileId String?
+  agentProfile   AgentProfile? @relation(fields: [agentProfileId], references: [id])
+  agentCode      String
+  agentName      String
+  agentPhone     String?
+  type           AllocType
+  amount         Decimal       @db.Decimal(15, 2)
+  transactionRef String?
+  latitude       Decimal?      @db.Decimal(10, 7)
+  longitude      Decimal?      @db.Decimal(10, 7)
+  notes          String?
+  isRedFlagged   Boolean       @default(false)
+  redFlagReason  String?
+  createdAt      DateTime      @default(now())
+
+  @@map("distributions")
+  @@schema("rb")
+}
+
+model Prospect {
+  id           String        @id @default(cuid())
+  rebalancerId String
+  rebalancer   Rebalancer    @relation(fields: [rebalancerId], references: [id])
+  name         String
+  phone        String
+  town         String?
+  market       String?
+  province     String?
+  stage        ProspectStage @default(CONTACTED)
+  notes        String?
+  latitude     Decimal?      @db.Decimal(10, 7)
+  longitude    Decimal?      @db.Decimal(10, 7)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@map("prospects")
+  @@schema("rb")
+}
+
+model TargetVersion {
+  id              String   @id @default(cuid())
+  version         Int      @default(1)
+  cashTarget      Decimal  @default(30000) @db.Decimal(15, 2)
+  floatTarget     Decimal  @default(30000) @db.Decimal(15, 2)
+  visitsTarget    Int      @default(35)
+  prospectsTarget Int      @default(5)
+  effectiveFrom   DateTime @default(now())
+  isActive        Boolean  @default(true)
+  createdById     String?
+  notes           String?
+  createdAt       DateTime @default(now())
+
+  @@map("target_versions")
+  @@schema("rb")
+}
+
+model PerformanceSnapshot {
+  id               String     @id @default(cuid())
+  rebalancerId     String
+  rebalancer       Rebalancer @relation(fields: [rebalancerId], references: [id])
+  date             DateTime
+  cashDistributed  Decimal    @default(0) @db.Decimal(15, 2)
+  floatDistributed Decimal    @default(0) @db.Decimal(15, 2)
+  agentsVisited    Int        @default(0)
+  newProspects     Int        @default(0)
+  weightedScore    Decimal    @default(0) @db.Decimal(5, 2)
+  createdAt        DateTime   @default(now())
+
+  @@map("performance_snapshots")
+  @@schema("rb")
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  action    String
+  entity    String
+  entityId  String?
+  oldValue  Json?
+  newValue  Json?
+  createdAt DateTime @default(now())
+
+  @@map("audit_logs")
+  @@schema("rb")
+}
