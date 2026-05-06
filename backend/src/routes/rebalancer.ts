@@ -161,6 +161,22 @@ rebalancerRouter.get('/prospects', requireRoles('REBALANCER'), async (req: AuthR
   return res.json(prospects);
 });
 
+// ── Today's distribution map points ──────────────────────────────────────────
+rebalancerRouter.get('/distributions/map', requireRoles('REBALANCER', 'DIRECTOR', 'ADMIN', 'SUPERVISOR'), async (req: AuthRequest, res: Response) => {
+  const rebId = req.user!.rebalancerId;
+  const today = todayStart();
+  const where = rebId ? { rebalancerId: rebId, createdAt: { gte: today } } : { createdAt: { gte: today } };
+  const dists = await prisma.distribution.findMany({
+    where,
+    select: { id: true, agentCode: true, agentName: true, type: true, amount: true, latitude: true, longitude: true, createdAt: true, rebalancer: { select: { user: { select: { name: true } } } } },
+    orderBy: { createdAt: 'desc' },
+  });
+  const points = dists
+    .filter(d => d.latitude && d.longitude)
+    .map(d => ({ id: d.id, lat: Number(d.latitude), lng: Number(d.longitude), agentCode: d.agentCode, agentName: d.agentName, type: d.type, amount: Number(d.amount), rebalancer: d.rebalancer?.user?.name ?? '—', createdAt: d.createdAt }));
+  return res.json(points);
+});
+
 // ── Agent lookup ──────────────────────────────────────────────────────────────
 rebalancerRouter.get('/agents/lookup', guard, async (req: AuthRequest, res: Response) => {
   const q = (req.query.q as string)?.trim() ?? '';

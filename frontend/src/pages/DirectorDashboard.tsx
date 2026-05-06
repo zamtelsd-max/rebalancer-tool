@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import api from '../utils/api';
 import { fmtZMW, fmtPct, getBand } from '../utils/fmt';
 import ProgressBar from '../components/ProgressBar';
+import DistributionMap, { MapPoint } from '../components/DistributionMap';
 
 interface DashData {
   master: { cashBalance: number; floatBalance: number };
@@ -18,6 +19,7 @@ interface Reb { id: string; name: string; region?: string; today: { cashPct: num
 export default function DirectorDashboard() {
   const [data, setData] = useState<DashData | null>(null);
   const [rebs, setRebs] = useState<Reb[]>([]);
+  const [mapPoints, setMapPoints] = useState<MapPoint[]>([]);
   const [allocModal, setAllocModal] = useState(false);
   const [allocReb, setAllocReb] = useState('');
   const [allocType, setAllocType] = useState<'CASH' | 'FLOAT'>('CASH');
@@ -27,8 +29,12 @@ export default function DirectorDashboard() {
 
   const load = async () => {
     try {
-      const [d, r] = await Promise.all([api.get('/director/dashboard'), api.get('/director/rebalancers')]);
-      setData(d.data); setRebs(r.data);
+      const [d, r, m] = await Promise.all([
+        api.get('/director/dashboard'),
+        api.get('/director/rebalancers'),
+        api.get('/rebalancer/distributions/map'),
+      ]);
+      setData(d.data); setRebs(r.data); setMapPoints(m.data);
     } catch { toast.error('Failed to load dashboard'); }
   };
 
@@ -131,6 +137,29 @@ export default function DirectorDashboard() {
             );
           })}
         </div>
+      </div>
+
+      {/* GPS Field Map — all rebalancers today */}
+      <div className="bg-white rounded-2xl border border-gray-200 p-4 shadow-sm">
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="font-bold text-gray-800">📍 Today's Field Map</h2>
+          <span className="text-xs text-gray-400">{mapPoints.length} distribution{mapPoints.length !== 1 ? 's' : ''} nationwide</span>
+        </div>
+        {mapPoints.length === 0 ? (
+          <div className="h-52 flex flex-col items-center justify-center bg-gray-50 rounded-xl border border-dashed border-gray-300 text-gray-400">
+            <p className="text-3xl mb-2">🗺️</p>
+            <p className="text-sm font-medium">No distributions logged today yet</p>
+          </div>
+        ) : (
+          <>
+            <DistributionMap points={mapPoints} height="320px" />
+            <div className="flex gap-4 mt-2 text-xs text-gray-500">
+              <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-brand-blue inline-block" /> Cash</span>
+              <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-brand-gold inline-block" /> Float</span>
+              <span className="text-gray-400 ml-auto italic">Tap a pin for details</span>
+            </div>
+          </>
+        )}
       </div>
 
       {/* Allocate Modal */}
