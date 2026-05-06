@@ -70,7 +70,7 @@ rebalancerRouter.post('/distribute', requireRoles('REBALANCER'), async (req: Aut
   const rebId = req.user!.rebalancerId;
   if (!rebId) return res.status(400).json({ error: 'Not a rebalancer account' });
 
-  const { type, agentCode, agentName, agentPhone, amount, transactionRef, latitude, longitude, notes } = req.body;
+  const { type, agentCode, agentName, agentPhone, agentTown, agentMarket, agentProvince, amount, transactionRef, latitude, longitude, notes } = req.body;
   if (!type || !agentCode || !agentName || !amount || !latitude || !longitude) {
     return res.status(400).json({ error: 'type, agentCode, agentName, amount, latitude, longitude are required' });
   }
@@ -85,19 +85,55 @@ rebalancerRouter.post('/distribute', requireRoles('REBALANCER'), async (req: Aut
   const bal = type === 'CASH' ? Number(rebalancer.cashBalance) : Number(rebalancer.floatBalance);
   if (bal < amt) return res.status(400).json({ error: `Insufficient ${type.toLowerCase()} balance (K${bal.toFixed(2)} available)` });
 
-  const agent = await prisma.agentProfile.findUnique({ where: { agentCode } });
-  const isRedFlagged = agent?.isRedFlagged ?? false;
+  // Upsert agent — create on first distribution, update details if provided
+  const agent = await prisma.agentProfile.upsert({
+    where: { agentCode: agentCode.trim().toUpperCase() },
+    create: {
+      agentCode: agentCode.trim().toUpperCase(),
+      name: agentName.trim(),
+      phone: (agentPhone ?? '').trim(),
+      town: agentTown?.trim() || null,
+      market: agentMarket?.trim() || null,
+      province: agentProvince?.trim() || null,
+      latitude: latitude ? parseFloat(latitude) : null,
+      longitude: longitude ? parseFloat(longitude) : null,
+    },
+    update: {
+      // Only update fields that were explicitly provided
+      ...(agentName && { name: agentName.trim() }),
+      ...(agentPhone && { phone: agentPhone.trim() }),
+      ...(agentTown && { town: agentTown.trim() }),
+      ...(agentMarket && { market: agentMarket.trim() }),
+      ...(agentProvince && { province: agentProvince.trim() }),
+    },
+  });
+
+  const isRedFlagged = agent.isRedFlagged ?? false;
   if (isRedFlagged && !notes) return res.status(400).json({ error: 'Notes are required for red-flagged agents' });
 
   const [dist] = await prisma.$transaction([
     prisma.distribution.create({
-      data: { rebalancerId: rebId, agentProfileId: agent?.id, agentCode, agentName, agentPhone, type, amount: amt, transactionRef, latitude: parseFloat(latitude), longitude: parseFloat(longitude), notes, isRedFlagged, redFlagReason: agent?.redFlagReason },
+      data: {
+        rebalancerId: rebId,
+        agentProfileId: agent.id,
+        agentCode: agent.agentCode,
+        agentName: agent.name,
+        agentPhone: agent.phone,
+        type,
+        amount: amt,
+        transactionRef,
+        latitude: parseFloat(latitude),
+        longitude: parseFloat(longitude),
+        notes,
+        isRedFlagged,
+        redFlagReason: agent.redFlagReason,
+      },
     }),
     type === 'CASH'
       ? prisma.rebalancer.update({ where: { id: rebId }, data: { cashBalance: { decrement: amt } } })
       : prisma.rebalancer.update({ where: { id: rebId }, data: { floatBalance: { decrement: amt } } }),
   ]);
-  return res.json({ success: true, distribution: dist });
+  return res.json({ success: true, distribution: dist, agent: { id: agent.id, agentCode: agent.agentCode, name: agent.name, isNew: !agent.updatedAt || agent.createdAt.getTime() === agent.updatedAt.getTime() } });
 });
 
 // ── Distribution history ──────────────────────────────────────────────────────
